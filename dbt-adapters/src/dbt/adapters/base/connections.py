@@ -213,7 +213,7 @@ class BaseConnectionManager(metaclass=abc.ABCMeta):
             or float to be passed to time.sleep.
         :type retry_timeout: Union[Callable[[int], SleepTime], SleepTime] = 1
         :param int _attempts: Parameter used to keep track of the number of attempts in calling the
-            connect function across recursive calls. Passed as an argument to retry_timeout if it
+            connect function across attempts. Passed as an argument to retry_timeout if it
             is a Callable. This parameter should not be set by the initial caller.
         :raises dbt.adapters.exceptions.FailedToConnectError: Upon exhausting all retry attempts without
             successfully acquiring a handle.
@@ -248,9 +248,9 @@ class BaseConnectionManager(metaclass=abc.ABCMeta):
                     raise FailedToConnectError(str(e))
 
                 logger.debug(
-                    f"Got a retryable error when attempting to open a {cls.TYPE} connection.\\n"
-                    f"{retries_remaining} attempts remaining. Retrying in {timeout} seconds.\\n"
-                    f"Error:\\n{e}"
+                    f"Got a retryable error when attempting to open a {cls.TYPE} connection.\n"
+                    f"{retries_remaining} attempts remaining. Retrying in {timeout} seconds.\n"
+                    f"Error:\n{e}"
                 )
 
                 sleep(timeout)
