@@ -18,7 +18,7 @@ def test_retry_connection_retries_until_success():
     connection = make_connection()
     logger = Mock()
     connect = Mock(side_effect=[ValueError("transient"), ValueError("transient"), object()])
-    timeout = Mock(side_effect=[0, 1])
+    timeout = Mock(side_effect=[0, 1, 2])
 
     with patch("dbt.adapters.base.connections.sleep") as sleep:
         result = BaseConnectionManager.retry_connection(
